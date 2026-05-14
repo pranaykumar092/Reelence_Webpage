@@ -1,0 +1,22 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="1200" height="900" fill="#060A10"/>
+<ellipse cx="600" cy="760" rx="520" ry="180" fill="url(#paint0_radial_1_5)"/>
+<rect x="118" y="402" width="52" height="220" fill="#0E1624" stroke="#1EE8CF" stroke-opacity="0.28"/>
+<rect x="194" y="348" width="68" height="274" fill="#0E1624" stroke="#1EE8CF" stroke-opacity="0.28"/>
+<rect x="286" y="276" width="76" height="346" fill="#0E1624" stroke="#1EE8CF" stroke-opacity="0.28"/>
+<rect x="388" y="198" width="92" height="424" fill="#0E1624" stroke="#1EE8CF" stroke-opacity="0.28"/>
+<rect x="516" y="238" width="78" height="384" fill="#0E1624" stroke="#1EE8CF" stroke-opacity="0.28"/>
+<rect x="630" y="164" width="108" height="458" fill="#0E1624" stroke="#1EE8CF" stroke-opacity="0.28"/>
+<rect x="774" y="262" width="84" height="360" fill="#0E1624" stroke="#1EE8CF" stroke-opacity="0.28"/>
+<rect x="888" y="326" width="70" height="296" fill="#0E1624" stroke="#1EE8CF" stroke-opacity="0.28"/>
+<rect x="986" y="390" width="58" height="232" fill="#0E1624" stroke="#1EE8CF" stroke-opacity="0.28"/>
+<path d="M170 662H1034" stroke="#E2E8F0" stroke-opacity="0.25" stroke-width="4"/>
+<path d="M224 710C344 620 516 590 600 590C684 590 856 620 976 710" stroke="#38BDF8" stroke-opacity="0.45" stroke-width="10" stroke-linecap="round"/>
+<path d="M114 758H1086" stroke="#22D3EE" stroke-opacity="0.65" stroke-width="3"/>
+<defs>
+<radialGradient id="paint0_radial_1_5" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(600 760) rotate(90) scale(180 520)">
+<stop stop-color="#0F766E" stop-opacity="0.75"/>
+<stop offset="1" stop-color="#060A10" stop-opacity="0"/>
+</radialGradient>
+</defs>
+</svg>
