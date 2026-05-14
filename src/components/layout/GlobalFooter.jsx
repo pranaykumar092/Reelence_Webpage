@@ -67,6 +67,27 @@ export default function GlobalFooter() {
         </div>
       </footer>
 
+      <div className="reelence-bottom-bar" role="contentinfo">
+        <div className="reelence-bottom-left">Paris collaboration</div>
+
+        <div className="reelence-bottom-center">Contact us = Bangalore</div>
+
+        <div className="reelence-bottom-right" aria-label="Social links">
+          <a className="social-btn" href="#" aria-label="YouTube">
+            <Youtube size={16} />
+          </a>
+          <a className="social-btn" href="#" aria-label="Instagram">
+            <Instagram size={16} />
+          </a>
+          <a className="social-btn" href="#" aria-label="LinkedIn">
+            <Linkedin size={16} />
+          </a>
+          <a className="social-btn" href="#" aria-label="Facebook">
+            <Facebook size={16} />
+          </a>
+        </div>
+      </div>
+
       {card && (
         <div className="reelence-office-backdrop" onClick={() => setActiveCard(null)}>
           <div className="reelence-office-modal" onClick={(event) => event.stopPropagation()}>

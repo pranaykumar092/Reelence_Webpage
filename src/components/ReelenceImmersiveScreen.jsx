@@ -96,7 +96,7 @@ const sections = [
   {
     id: 'home',
     label: 'Home',
-    title: 'The Future of AI Cinema, Learning & Entertainment',
+    title: 'The Future of AI Cinema: Learning and Entertainment',
     eyebrow: 'REELENCE DIGITAL STUDIOS',
     accentClass: 'accent-home',
     description: 'Reelence is a premium AI filmmaking and creative technology ecosystem building cinematic content, Studio OS intelligence, OTT-ready entertainment IP, AI learning experiences and enterprise automation systems for the next era of storytelling.',
@@ -388,7 +388,7 @@ const leaders = [
   {
     name: 'Sunil Kumar',
     role: 'Co-Founder & Visionary Creative Head',
-    image: '/assets/founders/sunil-kumar.jpg',
+    image: '/assets/founders/sunil_kumar1.jpg',
     badge: 'AI Cinematic Systems Visionary',
     bio:
       'Creator of Reelence Director and the cinematic AI ecosystem vision behind Reelence’s storytelling and creative intelligence platform.',
@@ -925,51 +925,33 @@ function AboutPanel({ section, onOpenStat, scrollContainerRef }) {
         <h1 className={`section-title ${section.accentClass}`}>{section.title}</h1>
         <p className="section-description about-description">{section.description}</p>
 
-        <div className="about-stats-row">
-          {section.stats.map((item) => (
-            <button key={item} className="stat-pill about-stat-pill" onClick={() => onOpenStat && onOpenStat(item)}>
-              {item}
-            </button>
-          ))}
+        {/* Minimal glass tiles: Mission, Vision, Collaborative Foundation */}
+        <div className="about-intel-grid compact-tiles">
+          <button className="about-glass-card glass-tile" onClick={() => onOpenStat && onOpenStat('Our Mission')}>
+            <h3>Our Mission</h3>
+          </button>
+
+          <button className="about-glass-card glass-tile" onClick={() => onOpenStat && onOpenStat('Our Vision')}>
+            <h3>Our Vision</h3>
+          </button>
+
+          <button className="about-glass-card glass-tile" onClick={() => onOpenStat && onOpenStat('Collaborative Foundation')}>
+            <h3>Collaborative Foundation</h3>
+          </button>
         </div>
 
-        <div className="about-intel-grid">
-          <button className="about-glass-card about-mission-card" onClick={() => onOpenStat && onOpenStat('Vision and mission')}>
-            <span className="about-card-kicker">Mission</span>
-            <h3>{section.mission.title}</h3>
-            <p>{section.mission.text}</p>
-            <div className="about-chip-row compact">
-              {section.mission.points.map((point) => (
-                <span key={point}>{point}</span>
-              ))}
+        {/* Four founders tiles under the mission/vision tiles */}
+        <div className="founders-row">
+          {leaders.map((leader) => (
+            <div key={leader.name} className="founder-card" onClick={() => onOpenStat && onOpenStat(leader.name)}>
+              <img src={leader.image} alt={leader.name} className="founder-avatar" />
+              <div className="founder-meta">
+                <div className="founder-name">{leader.name}</div>
+                <div className="founder-role">{leader.role}</div>
+              </div>
             </div>
-          </button>
-
-          <button className="about-glass-card about-vision-card" onClick={() => onOpenStat && onOpenStat('Explore Reelence Vision')}>
-            <span className="about-card-kicker">Vision</span>
-            <h3>{section.vision.title}</h3>
-            <p>{section.vision.text}</p>
-          </button>
-        </div>
-
-        <div className="about-vision-grid">
-          {section.vision.cards.map((card) => (
-            <button key={card} className="about-mini-card" onClick={() => onOpenStat && onOpenStat(card)}>
-              {card}
-            </button>
           ))}
         </div>
-
-        <button className="about-collab-card" onClick={() => onOpenStat && onOpenStat('Global collaboration')}>
-          <span className="about-card-kicker">Global Collaboration</span>
-          <h3>{section.collaboration.title}</h3>
-          <p>{section.collaboration.text}</p>
-          <div className="about-chip-row">
-            {section.collaboration.chips.map((chip) => (
-              <span key={chip}>{chip}</span>
-            ))}
-          </div>
-        </button>
 
         <div className="about-final-cta">
           <div>
@@ -1063,9 +1045,9 @@ function SectionPanel({ section, onOpenStat, onOpenKidsCard, scrollContainerRef 
           animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
           exit={{ opacity: 0, y: -28, filter: 'blur(10px)' }}
           transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-          className="section-panel"
+          className={`section-panel ${section.id === 'home' ? 'section-panel-home' : ''}`}
         >
-          <h1 className={`section-title ${section.accentClass}`}>{section.title}</h1>
+          {section.id !== 'home' && <h1 className={`section-title ${section.accentClass}`}>{section.title}</h1>}
 
           <p className="section-description">{section.description}</p>
 
@@ -1250,8 +1232,10 @@ function VisualPanel({ section }) {
           animate={{ opacity: 1, x: 0, scale: 1 }}
           exit={{ opacity: 0, x: 24, scale: 0.98 }}
           transition={{ duration: 0.55 }}
-          className="visual-panel"
+          className="visual-panel visual-panel-home"
         >
+          <h1 className={`section-title home-visual-title ${section.accentClass}`}>{section.title}</h1>
+
           <div className="visual-panel-header">
             <img src="/assets/logo.png" alt="Reelence" className="mini-logo" />
             <span>{section.visualTitle}</span>
@@ -1506,6 +1490,36 @@ export default function ReelenceImmersiveScreen() {
       return;
     }
 
+    // Special about-us tiles and leaders
+    const aboutSection = sections.find((s) => s.id === 'about-us');
+    if (titleOrKey === 'Our Mission' && aboutSection) {
+      const mission = aboutSection.mission;
+      const bodyText = `${mission.text}\n\n${mission.points.map((p) => `• ${p}`).join('\n')}`;
+      setModal({ open: true, title: mission.title, body: bodyText, showDemoButton: false, service: null });
+      return;
+    }
+
+    if (titleOrKey === 'Our Vision' && aboutSection) {
+      const vision = aboutSection.vision;
+      const bodyText = `${vision.text}\n\n${vision.cards.map((c) => `• ${c}`).join('\n')}`;
+      setModal({ open: true, title: vision.title, body: bodyText, showDemoButton: false, service: null });
+      return;
+    }
+
+    if (titleOrKey === 'Collaborative Foundation' && aboutSection) {
+      const collab = aboutSection.collaboration;
+      const bodyText = `${collab.text}\n\n${collab.chips.map((c) => `• ${c}`).join('\n')}`;
+      setModal({ open: true, title: collab.title, body: bodyText, showDemoButton: false, service: null });
+      return;
+    }
+
+    const leader = leaders.find((l) => l.name === titleOrKey);
+    if (leader) {
+      const bodyText = `${leader.role}\n\n${leader.bio}`;
+      setModal({ open: true, title: leader.name, body: bodyText, showDemoButton: false, service: null });
+      return;
+    }
+
     const mapping = {
       'Start Creative Project': 'Start a premium creative project with Reelence Creative Studio. We will shape your idea, campaign, product, or brand story into cinematic AI-assisted content designed for attention and trust.',
       'Talk To Reelence': 'Connect with Reelence to discuss your creative goals, target audience, production needs, timeline, and the best cinematic content format for your brand.',
@@ -1595,7 +1609,7 @@ export default function ReelenceImmersiveScreen() {
           className={`content-grid content-grid-${active.id} ${(active.id === 'services' || active.id === 'kids-world') ? 'content-grid-services' : ''}`}
         >
           <SectionPanel section={active} onOpenStat={openModal} onOpenKidsCard={openKidsCardModal} scrollContainerRef={scrollContainerRef} />
-          {(active.id !== 'services' && active.id !== 'kids-world') && (
+          {(active.id !== 'services' && active.id !== 'kids-world' && active.id !== 'about-us') && (
             <VisualPanel section={active} />
           )}
         </div>
