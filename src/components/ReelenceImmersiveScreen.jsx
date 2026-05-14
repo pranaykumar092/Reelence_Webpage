@@ -96,7 +96,11 @@ const sections = [
   {
     id: 'home',
     label: 'Home',
+<<<<<<< HEAD
     title: 'The Future of AI Cinema: Learning and Entertainment',
+=======
+    title: 'The Future of AI Cinema, Learning & Entertainment',
+>>>>>>> origin/Sunil-branch
     eyebrow: 'REELENCE DIGITAL STUDIOS',
     accentClass: 'accent-home',
     description: 'Reelence is a premium AI filmmaking and creative technology ecosystem building cinematic content, Studio OS intelligence, OTT-ready entertainment IP, AI learning experiences and enterprise automation systems for the next era of storytelling.',
@@ -388,7 +392,11 @@ const leaders = [
   {
     name: 'Sunil Kumar',
     role: 'Co-Founder & Visionary Creative Head',
+<<<<<<< HEAD
     image: '/assets/founders/sunil_kumar1.jpg',
+=======
+    image: '/assets/founders/sunil-kumar.jpg',
+>>>>>>> origin/Sunil-branch
     badge: 'AI Cinematic Systems Visionary',
     bio:
       'Creator of Reelence Director and the cinematic AI ecosystem vision behind Reelence’s storytelling and creative intelligence platform.',
@@ -665,11 +673,15 @@ function HomeMediaPlayer() {
               transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
               onCanPlay={() => setIsVideoReady(true)}
               onEnded={playNextVideo}
+<<<<<<< HEAD
               onError={() => {
                 setVideos([]);
                 setIsVideoReady(false);
                 setIsManifestError(true);
               }}
+=======
+              onError={playNextVideo}
+>>>>>>> origin/Sunil-branch
             />
           </AnimatePresence>
         ) : (
@@ -792,6 +804,7 @@ function KidsWorldMediaPanel() {
                 onPlay={() => setIsPlaying(true)}
                 onPause={() => setIsPlaying(false)}
                 onEnded={() => setIsPlaying(false)}
+<<<<<<< HEAD
                 onError={() => {
                   setHasError(true);
                   setVideos([]);
@@ -799,6 +812,8 @@ function KidsWorldMediaPanel() {
                   setIsPlaying(false);
                   setIsLoading(false);
                 }}
+=======
+>>>>>>> origin/Sunil-branch
               >
                 <source src={activeVideo.url} type={activeVideo.type} />
               </video>
@@ -861,6 +876,14 @@ function KidsWorldPanel({ section, onOpenStat, onOpenKidsCard, scrollContainerRe
         transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
         className="section-panel kids-world-panel"
       >
+<<<<<<< HEAD
+=======
+        <div className="eyebrow-pill kids-top-badge">
+          <Icon size={14} />
+          {section.eyebrow}
+        </div>
+
+>>>>>>> origin/Sunil-branch
         <h1 className={`section-title ${section.accentClass}`}>{section.title}</h1>
         <p className="section-description kids-subtext">{section.description}</p>
 
@@ -922,6 +945,7 @@ function AboutPanel({ section, onOpenStat, scrollContainerRef }) {
         transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
         className="section-panel about-panel"
       >
+<<<<<<< HEAD
         <h1 className={`section-title ${section.accentClass}`}>{section.title}</h1>
         <p className="section-description about-description">{section.description}</p>
 
@@ -953,6 +977,62 @@ function AboutPanel({ section, onOpenStat, scrollContainerRef }) {
           ))}
         </div>
 
+=======
+        <div className="eyebrow-pill about-top-badge">
+          <Icon size={14} />
+          {section.eyebrow}
+        </div>
+
+        <h1 className={`section-title ${section.accentClass}`}>{section.title}</h1>
+        <p className="section-description about-description">{section.description}</p>
+
+        <div className="about-stats-row">
+          {section.stats.map((item) => (
+            <button key={item} className="stat-pill about-stat-pill" onClick={() => onOpenStat && onOpenStat(item)}>
+              {item}
+            </button>
+          ))}
+        </div>
+
+        <div className="about-intel-grid">
+          <button className="about-glass-card about-mission-card" onClick={() => onOpenStat && onOpenStat('Vision and mission')}>
+            <span className="about-card-kicker">Mission</span>
+            <h3>{section.mission.title}</h3>
+            <p>{section.mission.text}</p>
+            <div className="about-chip-row compact">
+              {section.mission.points.map((point) => (
+                <span key={point}>{point}</span>
+              ))}
+            </div>
+          </button>
+
+          <button className="about-glass-card about-vision-card" onClick={() => onOpenStat && onOpenStat('Explore Reelence Vision')}>
+            <span className="about-card-kicker">Vision</span>
+            <h3>{section.vision.title}</h3>
+            <p>{section.vision.text}</p>
+          </button>
+        </div>
+
+        <div className="about-vision-grid">
+          {section.vision.cards.map((card) => (
+            <button key={card} className="about-mini-card" onClick={() => onOpenStat && onOpenStat(card)}>
+              {card}
+            </button>
+          ))}
+        </div>
+
+        <button className="about-collab-card" onClick={() => onOpenStat && onOpenStat('Global collaboration')}>
+          <span className="about-card-kicker">Global Collaboration</span>
+          <h3>{section.collaboration.title}</h3>
+          <p>{section.collaboration.text}</p>
+          <div className="about-chip-row">
+            {section.collaboration.chips.map((chip) => (
+              <span key={chip}>{chip}</span>
+            ))}
+          </div>
+        </button>
+
+>>>>>>> origin/Sunil-branch
         <div className="about-final-cta">
           <div>
             <h3>{section.finalCta.title}</h3>
@@ -995,6 +1075,14 @@ function SectionPanel({ section, onOpenStat, onOpenKidsCard, scrollContainerRef 
           transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
           className="section-panel services-panel"
         >
+<<<<<<< HEAD
+=======
+          <div className="eyebrow-pill services-top-badge">
+            <Icon size={14} />
+            {section.eyebrow}
+          </div>
+
+>>>>>>> origin/Sunil-branch
           <h1 className={`section-title ${section.accentClass}`}>{section.title}</h1>
 
           <p className="section-description services-subtext">{section.description}</p>
@@ -1045,9 +1133,20 @@ function SectionPanel({ section, onOpenStat, onOpenKidsCard, scrollContainerRef 
           animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
           exit={{ opacity: 0, y: -28, filter: 'blur(10px)' }}
           transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+<<<<<<< HEAD
           className={`section-panel ${section.id === 'home' ? 'section-panel-home' : ''}`}
         >
           {section.id !== 'home' && <h1 className={`section-title ${section.accentClass}`}>{section.title}</h1>}
+=======
+          className="section-panel"
+        >
+          <div className="eyebrow-pill">
+            <Icon size={14} />
+            {section.eyebrow}
+          </div>
+
+          <h1 className={`section-title ${section.accentClass}`}>{section.title}</h1>
+>>>>>>> origin/Sunil-branch
 
           <p className="section-description">{section.description}</p>
 
@@ -1100,6 +1199,14 @@ function SectionPanel({ section, onOpenStat, onOpenKidsCard, scrollContainerRef 
           transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
           className="section-panel portfolio-panel"
         >
+<<<<<<< HEAD
+=======
+          <div className="eyebrow-pill">
+            <Icon size={14} />
+            {section.eyebrow}
+          </div>
+
+>>>>>>> origin/Sunil-branch
           <h1 className={`section-title ${section.accentClass}`}>{section.title}</h1>
 
           <p className="section-description">{section.description}</p>
@@ -1146,6 +1253,14 @@ function SectionPanel({ section, onOpenStat, onOpenKidsCard, scrollContainerRef 
         transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
         className="section-panel"
       >
+<<<<<<< HEAD
+=======
+        <div className="eyebrow-pill">
+          <Icon size={14} />
+          {section.eyebrow}
+        </div>
+
+>>>>>>> origin/Sunil-branch
         <h1 className={`section-title ${section.accentClass}`}>{section.title}</h1>
 
         <p className="section-description">{section.description}</p>
@@ -1209,7 +1324,11 @@ function VisualPanel({ section }) {
                   alt={person.name}
                   className="leaders-spotlight-image"
                   onError={(e) => {
+<<<<<<< HEAD
                     e.currentTarget.src = '/assets/founders/founder-placeholder.svg';
+=======
+                    e.currentTarget.src = '/assets/founders/founder-placeholder.jpg';
+>>>>>>> origin/Sunil-branch
                   }}
                 />
                 <div className="leaders-spotlight-name">{person.name}</div>
@@ -1232,10 +1351,15 @@ function VisualPanel({ section }) {
           animate={{ opacity: 1, x: 0, scale: 1 }}
           exit={{ opacity: 0, x: 24, scale: 0.98 }}
           transition={{ duration: 0.55 }}
+<<<<<<< HEAD
           className="visual-panel visual-panel-home"
         >
           <h1 className={`section-title home-visual-title ${section.accentClass}`}>{section.title}</h1>
 
+=======
+          className="visual-panel"
+        >
+>>>>>>> origin/Sunil-branch
           <div className="visual-panel-header">
             <img src="/assets/logo.png" alt="Reelence" className="mini-logo" />
             <span>{section.visualTitle}</span>
@@ -1321,6 +1445,7 @@ export default function ReelenceImmersiveScreen() {
     };
   }, []);
 
+<<<<<<< HEAD
   useEffect(() => {
     const activeSectionId = sections[activeIndex]?.id;
     if (!activeSectionId) return;
@@ -1333,6 +1458,8 @@ export default function ReelenceImmersiveScreen() {
     window.dispatchEvent(new CustomEvent("reelence:active-section", { detail: activeSectionId }));
   }, [activeIndex]);
 
+=======
+>>>>>>> origin/Sunil-branch
 
   const servicePopupContent = {
     'Cinematic Brand Films': {
@@ -1490,6 +1617,7 @@ export default function ReelenceImmersiveScreen() {
       return;
     }
 
+<<<<<<< HEAD
     // Special about-us tiles and leaders
     const aboutSection = sections.find((s) => s.id === 'about-us');
     if (titleOrKey === 'Our Mission' && aboutSection) {
@@ -1520,6 +1648,8 @@ export default function ReelenceImmersiveScreen() {
       return;
     }
 
+=======
+>>>>>>> origin/Sunil-branch
     const mapping = {
       'Start Creative Project': 'Start a premium creative project with Reelence Creative Studio. We will shape your idea, campaign, product, or brand story into cinematic AI-assisted content designed for attention and trust.',
       'Talk To Reelence': 'Connect with Reelence to discuss your creative goals, target audience, production needs, timeline, and the best cinematic content format for your brand.',
@@ -1554,6 +1684,28 @@ export default function ReelenceImmersiveScreen() {
       e.preventDefault();
       if (wheelLockRef.current) return;
 
+<<<<<<< HEAD
+=======
+      const panel = scrollContainerRef.current;
+      if (panel) {
+        const maxScrollTop = Math.max(0, panel.scrollHeight - panel.clientHeight);
+        const atTop = panel.scrollTop <= 1;
+        const atBottom = panel.scrollTop >= maxScrollTop - 1;
+
+        if (maxScrollTop > 0) {
+          if (e.deltaY > 0 && !atBottom) {
+            panel.scrollTop = Math.min(maxScrollTop, panel.scrollTop + e.deltaY);
+            return;
+          }
+
+          if (e.deltaY < 0 && !atTop) {
+            panel.scrollTop = Math.max(0, panel.scrollTop + e.deltaY);
+            return;
+          }
+        }
+      }
+
+>>>>>>> origin/Sunil-branch
       wheelLockRef.current = true;
       setActiveIndex((prev) => {
         if (e.deltaY > 0) return Math.min(sections.length - 1, prev + 1);
@@ -1609,7 +1761,11 @@ export default function ReelenceImmersiveScreen() {
           className={`content-grid content-grid-${active.id} ${(active.id === 'services' || active.id === 'kids-world') ? 'content-grid-services' : ''}`}
         >
           <SectionPanel section={active} onOpenStat={openModal} onOpenKidsCard={openKidsCardModal} scrollContainerRef={scrollContainerRef} />
+<<<<<<< HEAD
           {(active.id !== 'services' && active.id !== 'kids-world' && active.id !== 'about-us') && (
+=======
+          {(active.id !== 'services' && active.id !== 'kids-world') && (
+>>>>>>> origin/Sunil-branch
             <VisualPanel section={active} />
           )}
         </div>
