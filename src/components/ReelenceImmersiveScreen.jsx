@@ -591,84 +591,31 @@ function Backdrop({ vibe }) {
 }
 
 function HomeMediaPlayer() {
-  const [videos, setVideos] = useState([]);
-  const [activeVideoIndex, setActiveVideoIndex] = useState(0);
   const [isVideoReady, setIsVideoReady] = useState(false);
-  const [isManifestError, setIsManifestError] = useState(false);
-
-  useEffect(() => {
-    let isMounted = true;
-
-    async function loadManifest() {
-      try {
-        const response = await fetch(HOME_VIDEO_MANIFEST_URL, { cache: 'no-store' });
-        if (!response.ok) {
-          throw new Error('Unable to load home video manifest');
-        }
-
-        const files = await response.json();
-        const playableVideos = (Array.isArray(files) ? files : [])
-          .filter((file) => typeof file === 'string' && VIDEO_FILE_REGEX.test(file))
-          .map((file) => `/video/home/${file}`);
-
-        if (!isMounted) return;
-
-        if (playableVideos.length === 0) {
-          setVideos([]);
-          setIsManifestError(true);
-          return;
-        }
-
-        setVideos(playableVideos);
-        setActiveVideoIndex(getRandomIndex(playableVideos.length));
-        setIsManifestError(false);
-        setIsVideoReady(false);
-      } catch {
-        if (!isMounted) return;
-        setVideos([]);
-        setIsManifestError(true);
-      }
-    }
-
-    loadManifest();
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
-
-  const activeVideo = videos[activeVideoIndex];
-
-  const playNextVideo = () => {
-    if (videos.length <= 1) return;
-    setIsVideoReady(false);
-    setActiveVideoIndex((prevIndex) => getRandomIndex(videos.length, prevIndex));
-  };
+  const [hasError, setHasError] = useState(false);
 
   return (
     <div className="home-media-shell">
       <div className="home-media-ratio">
-        {activeVideo ? (
+        {!hasError ? (
           <AnimatePresence mode="wait">
             <motion.video
-              key={activeVideo}
+              key="home-video"
               className="home-media-video"
-              src={activeVideo}
+              src="/assets/home.mp4"
               autoPlay
               muted
               playsInline
+              loop
               preload="auto"
-              loop={videos.length === 1}
               initial={{ opacity: 0 }}
               animate={{ opacity: isVideoReady ? 1 : 0 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
               onCanPlay={() => setIsVideoReady(true)}
-              onEnded={playNextVideo}
               onError={() => {
-                setVideos([]);
+                setHasError(true);
                 setIsVideoReady(false);
-                setIsManifestError(true);
               }}
             />
           </AnimatePresence>
@@ -678,13 +625,7 @@ function HomeMediaPlayer() {
 
         <div className="home-media-overlay" />
 
-        {!activeVideo && (
-          <div className="home-media-status">
-            {isManifestError ? 'Cinematic preview is being curated.' : 'Preparing cinematic preview...'}
-          </div>
-        )}
-
-        {activeVideo && !isVideoReady && <div className="home-media-status">Preparing cinematic preview...</div>}
+        {(!isVideoReady || hasError) && <div className="home-media-status">Preparing cinematic preview...</div>}
       </div>
     </div>
   );
