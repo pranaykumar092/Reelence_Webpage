@@ -1,11 +1,6 @@
-<<<<<<< HEAD
 import { useState, useRef, useEffect, useLayoutEffect } from "react";
 import { Menu, X, Sparkles } from "lucide-react";
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
-=======
-import { useState } from "react";
-import { Menu, X, Sparkles } from "lucide-react";
->>>>>>> origin/Sunil-branch
 import { reelenceLogoPath } from "../../config/reelenceAssets";
 
 const navItems = [
@@ -20,7 +15,6 @@ const navItems = [
 
 export default function GlobalHeader() {
   const [open, setOpen] = useState(false);
-<<<<<<< HEAD
   const [activeSection, setActiveSection] = useState(null);
   const maskRef = useRef(null);
   const innerRef = useRef(null);
@@ -38,16 +32,11 @@ export default function GlobalHeader() {
 
   const goTo = (href) => {
     setActiveSection(href.replace("#", ""));
-=======
-
-  const goTo = (href) => {
->>>>>>> origin/Sunil-branch
     window.location.hash = href;
     window.dispatchEvent(new CustomEvent("reelence:navigate", { detail: href.replace("#", "") }));
     setOpen(false);
   };
 
-<<<<<<< HEAD
   // position bubble when user clicks a nav item for immediate feedback
   const goToAndPositionBubble = (href, idx) => {
     goTo(href);
@@ -187,8 +176,6 @@ export default function GlobalHeader() {
     }
   }, [activeSection]);
 
-=======
->>>>>>> origin/Sunil-branch
   return (
     <header className="reelence-global-header">
       <div className="reelence-header-shell">
@@ -208,7 +195,6 @@ export default function GlobalHeader() {
         </button>
 
         <nav className="reelence-desktop-nav">
-<<<<<<< HEAD
           <div className="reelence-desktop-nav-mask" ref={maskRef} tabIndex={0}>
             <motion.div className="nav-bubble" style={{ x: springX, width: springW }} pointerEvents="none" aria-hidden="true" />
             <motion.div className="reelence-nav-inner" ref={innerRef} style={{ x }}>
@@ -227,13 +213,6 @@ export default function GlobalHeader() {
               })}
             </motion.div>
           </div>
-=======
-          {navItems.map((item) => (
-            <button key={item.label} onClick={() => goTo(item.href)}>
-              {item.label}
-            </button>
-          ))}
->>>>>>> origin/Sunil-branch
         </nav>
 
         <button className="reelence-header-cta" onClick={() => goTo("#contact")}>

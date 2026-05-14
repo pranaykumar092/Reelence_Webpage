@@ -703,7 +703,6 @@ button {
   overflow: hidden;
 }
 
-<<<<<<< HEAD
 /* Make about content occupy full width and remove the large right empty area */
 .content-grid.content-grid-about-us {
   grid-template-columns: 1fr !important;
@@ -722,8 +721,6 @@ button {
   display: none !important;
 }
 
-=======
->>>>>>> origin/Sunil-branch
 .visual-panel {
   pointer-events: auto;
   max-width: 100%;
@@ -770,11 +767,7 @@ button {
 .section-title {
   margin: 16px 0 12px;
   max-width: 100%;
-<<<<<<< HEAD
   font-size: clamp(1.1rem, 1.8vw, 1.8rem);
-=======
-  font-size: clamp(1.1rem, 2.4vw, 2.2rem);
->>>>>>> origin/Sunil-branch
   line-height: 1.15;
   font-weight: 900;
   letter-spacing: -0.02em;
@@ -826,7 +819,6 @@ button {
   -webkit-text-fill-color: transparent;
 }
 
-<<<<<<< HEAD
 /* Header masked horizontal nav + bubble */
 .reelence-desktop-nav {
   display: flex;
@@ -883,9 +875,6 @@ button {
   -webkit-backdrop-filter: blur(14px) saturate(150%);
 }
 
-
-=======
->>>>>>> origin/Sunil-branch
 .accent-about {
   background: linear-gradient(90deg, #ffffff, #d2aeff 44%, #7fd8ff);
   -webkit-background-clip: text;
@@ -946,7 +935,6 @@ button {
   transition: 180ms ease;
 }
 
-<<<<<<< HEAD
 /* Bottom bar with circular social buttons */
 .reelence-bottom-bar {
   width: 100%;
@@ -1010,8 +998,6 @@ button {
   .reelence-bottom-right { order: 3; }
 }
 
-=======
->>>>>>> origin/Sunil-branch
 .primary-button {
   background: #f6f7fb;
   color: #0b1020;
@@ -1594,9 +1580,6 @@ button {
     gap: 20px;
   }
 
-  .content-grid-services {
-    padding-right: 320px;
-  }
 
   .section-title {
     font-size: clamp(1.4rem, 3.2vw, 3.2rem);
@@ -3430,27 +3413,19 @@ button {
     inset: 0 auto 0 50% !important;
     width: min(1180px, calc(100vw - 28px)) !important;
     transform: translateX(-50%) !important;
-<<<<<<< HEAD
     grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr) !important;
-=======
-    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr) !important;
->>>>>>> origin/Sunil-branch
     gap: clamp(28px, 3vw, 60px) !important;
     padding: clamp(108px, 14vh, 136px) 0 clamp(96px, 13vh, 124px) !important;
   }
 
   .content-grid-home .section-panel {
     padding-right: 0 !important;
-<<<<<<< HEAD
     order: 2 !important;
-=======
->>>>>>> origin/Sunil-branch
   }
 
   .content-grid-home .visual-panel {
     min-height: 0 !important;
     padding: 0 !important;
-<<<<<<< HEAD
     order: 1 !important;
   }
 
@@ -3465,8 +3440,6 @@ button {
   .content-grid-about-us .section-panel {
     width: 100% !important;
     padding-right: 0 !important;
-=======
->>>>>>> origin/Sunil-branch
   }
 }
 
@@ -4067,7 +4040,6 @@ button {
     justify-content: center;
   }
 }
-<<<<<<< HEAD
 
 /* About: compact glass tiles and founders row */
 .about-intel-grid.compact-tiles {
@@ -4240,5 +4212,3 @@ button {
     gap: 10px;
   }
 }
-=======
->>>>>>> origin/Sunil-branch
