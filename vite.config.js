@@ -50,4 +50,7 @@ function kidsWorldManifestPlugin() {
 
 export default defineConfig({
   plugins: [react(), kidsWorldManifestPlugin()],
+  server: {
+    allowedHosts: ['eb5f-2409-40d2-28-5574-ec5c-bba3-d383-f222.ngrok-free.app'],
+  },
 });

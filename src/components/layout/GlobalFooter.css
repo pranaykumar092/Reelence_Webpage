@@ -161,6 +161,18 @@
   color: rgba(255,255,255,0.84);
   font-size: 14px;
   line-height: 1.45;
+  word-break: break-all;
+}
+
+.rf-link {
+  color: #9eeeff;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.rf-link:hover {
+  text-decoration: underline;
+  opacity: 0.8;
 }
 
 @media (max-width: 640px) {

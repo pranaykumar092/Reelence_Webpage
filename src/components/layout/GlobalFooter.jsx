@@ -39,17 +39,17 @@ const panels = {
     rows: [
       ["Collaboration", "Reelence collaborates with Scientists AI and Robotics, Paris and Shaktinova, Paris for AI, robotics, creative technology, and future-facing innovation initiatives.", MapPin],
       ["Email", "sales@reelence.com  |  consulting@reelence.com", Mail],
-      ["Phone", "+91 9886669814", Phone],
+      ["Phone", "+33 7 68 88 76 64", Phone],
     ],
   },
   social: {
     eyebrow: "Social Handles",
     title: "Follow Reelence",
     rows: [
-      ["YouTube", "Placeholder link", Youtube],
-      ["Instagram", "Placeholder link", Instagram],
-      ["LinkedIn", "Placeholder link", Linkedin],
-      ["Facebook", "Placeholder link", Facebook],
+      ["YouTube", "https://www.youtube.com/@reelence", Youtube],
+      ["Instagram", "https://www.instagram.com/reelence2025/", Instagram],
+      ["LinkedIn", "https://www.linkedin.com/company/reelence/", Linkedin],
+      ["X", "https://x.com/reelence", X],
     ],
   },
   legal: {
@@ -117,7 +117,15 @@ export default function GlobalFooter() {
                   </div>
                   <div>
                     <div className="rf-label">{label}</div>
-                    <div className="rf-value">{value}</div>
+                    <div className="rf-value">
+                      {typeof value === "string" && value.startsWith("http") ? (
+                        <a href={value} target="_blank" rel="noopener noreferrer" className="rf-link">
+                          {value}
+                        </a>
+                      ) : (
+                        value
+                      )}
+                    </div>
                   </div>
                 </div>
               ))}

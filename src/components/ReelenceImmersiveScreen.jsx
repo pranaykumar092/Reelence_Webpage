@@ -96,7 +96,7 @@ const sections = [
   {
     id: 'home',
     label: 'Home',
-    title: 'The Future of AI Cinema: Learning and Entertainment',
+    title: 'AI-Powered Cinema Begins Here :The Cinematic Intelligence Engine',
     eyebrow: 'REELENCE DIGITAL STUDIOS',
     accentClass: 'accent-home',
     description: 'Reelence is a premium AI filmmaking and creative technology ecosystem building cinematic content, Studio OS intelligence, OTT-ready entertainment IP, AI learning experiences and enterprise automation systems for the next era of storytelling.',
@@ -130,7 +130,7 @@ const sections = [
         detail: 'Strategic AI consulting, workflow automation, content operating systems and scalable execution support for organizations moving into intelligent creation.',
       },
     ],
-    visualTitle: 'REELENCE CINEMATIC INTELLIGENCE ENGINE',
+    visualTitle: 'Dream • Direct • Create',
     vibe: 'home',
   },
   {
@@ -1175,14 +1175,14 @@ function VisualPanel({ section }) {
           transition={{ duration: 0.55 }}
           className="visual-panel visual-panel-home"
         >
+          <HomeMediaPlayer />
+
           <h1 className={`section-title home-visual-title ${section.accentClass}`}>{section.title}</h1>
 
           <div className="visual-panel-header">
             <img src="/assets/logo.png" alt="Reelence" className="mini-logo" />
             <span>{section.visualTitle}</span>
           </div>
-
-          <HomeMediaPlayer />
         </motion.div>
       </AnimatePresence>
     );
@@ -1549,10 +1549,10 @@ export default function ReelenceImmersiveScreen() {
         <div
           className={`content-grid content-grid-${active.id} ${(active.id === 'services' || active.id === 'kids-world') ? 'content-grid-services' : ''}`}
         >
-          <SectionPanel section={active} onOpenStat={openModal} onOpenKidsCard={openKidsCardModal} scrollContainerRef={scrollContainerRef} />
           {(active.id !== 'services' && active.id !== 'kids-world' && active.id !== 'about-us') && (
             <VisualPanel section={active} />
           )}
+          <SectionPanel section={active} onOpenStat={openModal} onOpenKidsCard={openKidsCardModal} scrollContainerRef={scrollContainerRef} />
         </div>
 
         <DetailModal

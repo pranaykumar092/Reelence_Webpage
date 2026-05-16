@@ -52,10 +52,10 @@ const panels = {
     eyebrow: "Social Handles",
     title: "Follow Reelence",
     rows: [
-      ["YouTube", "Placeholder link", Youtube],
-      ["Instagram", "Placeholder link", Instagram],
-      ["LinkedIn", "Placeholder link", Linkedin],
-      ["Facebook", "Placeholder link", Facebook],
+      ["YouTube", "https://www.youtube.com/@reelence", Youtube],
+      ["Instagram", "https://www.instagram.com/reelence2025/", Instagram],
+      ["LinkedIn", "https://www.linkedin.com/company/reelence/", Linkedin],
+      ["X", "https://x.com/reelence", X],
     ],
   },
   legal: {
@@ -123,7 +123,15 @@ export default function GlobalFooter() {
                   </div>
                   <div>
                     <div className="rf-label">{label}</div>
-                    <div className="rf-value">{value}</div>
+                    <div className="rf-value">
+                      {typeof value === "string" && value.startsWith("http") ? (
+                        <a href={value} target="_blank" rel="noopener noreferrer" className="rf-link">
+                          {value}
+                        </a>
+                      ) : (
+                        value
+                      )}
+                    </div>
                   </div>
                 </div>
               ))}
@@ -299,6 +307,18 @@ footer_css = r'''/* Reelence Icon Only Footer - isolated CSS */
   color: rgba(255,255,255,0.84);
   font-size: 14px;
   line-height: 1.45;
+  word-break: break-all;
+}
+
+.rf-link {
+  color: #9eeeff;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.rf-link:hover {
+  text-decoration: underline;
+  opacity: 0.8;
 }
 
 @media (max-width: 640px) {
