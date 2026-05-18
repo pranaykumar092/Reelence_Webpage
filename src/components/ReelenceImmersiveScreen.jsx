@@ -379,7 +379,7 @@ const leaders = [
   },
   {
     name: 'Ambika Chopra',
-    role: 'Head of Sales & Marketing',
+    role: 'Chief Business Development and Marketing Officer',
     image: '/assets/founders/ambika-chopra.jpg',
     badge: 'Brand Growth & Strategic Partnerships',
     bio:
