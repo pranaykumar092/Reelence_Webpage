@@ -16,15 +16,25 @@ function resolveVideoName(videoName) {
   return VIDEO_MAP[videoName] || 'default';
 }
 
+// Currently, there are no background video files in the repository (e.g. under /public/videos/backgrounds/).
+// To prevent unnecessary 404 network requests and layout stutters, we only attempt to load the video element
+// if the video name is explicitly listed as supported and present in the folder.
+const SUPPORTED_BACKGROUND_VIDEOS = [];
+
 export default function CinematicBackgroundVideo({ videoName }) {
   const [hasVideoError, setHasVideoError] = useState(false);
 
   const resolvedVideoName = useMemo(() => resolveVideoName(videoName), [videoName]);
   const videoSrc = `/videos/backgrounds/${resolvedVideoName}.mp4`;
+
+  const isVideoSupported = useMemo(() => {
+    return SUPPORTED_BACKGROUND_VIDEOS.includes(resolvedVideoName);
+  }, [resolvedVideoName]);
+
   const shellClassName = [
     'cinematic-bg-shell',
     `cinematic-bg-${resolvedVideoName}`,
-    hasVideoError ? 'cinematic-bg-shell-fallback' : '',
+    (hasVideoError || !isVideoSupported) ? 'cinematic-bg-shell-fallback' : '',
   ]
     .filter(Boolean)
     .join(' ');
@@ -35,7 +45,7 @@ export default function CinematicBackgroundVideo({ videoName }) {
 
   return (
     <div className={shellClassName} aria-hidden="true">
-      {!hasVideoError && (
+      {!hasVideoError && isVideoSupported && (
         <video
           key={videoSrc}
           className="cinematic-bg-video"

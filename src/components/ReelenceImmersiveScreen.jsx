@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import DetailModal from './DetailModal';
-import CircularMenu from './CircularMenu';
 import CinematicBackgroundVideo from './CinematicBackgroundVideo';
 import {
   Building2,
@@ -708,82 +707,89 @@ function KidsWorldMediaPanel() {
     videoRef.current.play();
   };
 
+  // Always show exactly 3 slots; pad with placeholder slots for upcoming videos
+  const TOTAL_SLOTS = 3;
+  const slots = Array.from({ length: TOTAL_SLOTS }, (_, i) => videos[i] ?? null);
+
   return (
     <div className="kids-media-shell">
-      <div className="kids-mascot" aria-hidden="true">
-        🦁
-      </div>
-      <div className="kids-media-heading">
-        <h3>Watch & Enjoy</h3>
-        <p>Stories, Songs & Learning Adventures</p>
-      </div>
+      <div className="kids-player-layout">
+        {/* ── Left: main video ── */}
+        <div className="kids-featured-player">
+          <div className="kids-featured-ratio">
+            {activeVideo ? (
+              <>
+                <video
+                  key={activeVideo.url}
+                  ref={videoRef}
+                  className="kids-featured-video"
+                  controls
+                  playsInline
+                  preload="metadata"
+                  onCanPlay={() => setIsVideoReady(true)}
+                  onPlay={() => setIsPlaying(true)}
+                  onPause={() => setIsPlaying(false)}
+                  onEnded={() => setIsPlaying(false)}
+                  onError={() => {
+                    setHasError(true);
+                    setVideos([]);
+                    setIsVideoReady(false);
+                    setIsPlaying(false);
+                    setIsLoading(false);
+                  }}
+                >
+                  <source src={activeVideo.url} type={activeVideo.type} />
+                </video>
 
-      <div className="kids-featured-player">
-        <div className="kids-featured-ratio">
-          {activeVideo ? (
-            <>
-              <video
-                key={activeVideo.url}
-                ref={videoRef}
-                className="kids-featured-video"
-                controls
-                playsInline
-                preload="metadata"
-                onCanPlay={() => setIsVideoReady(true)}
-                onPlay={() => setIsPlaying(true)}
-                onPause={() => setIsPlaying(false)}
-                onEnded={() => setIsPlaying(false)}
-                onError={() => {
-                  setHasError(true);
-                  setVideos([]);
-                  setIsVideoReady(false);
-                  setIsPlaying(false);
-                  setIsLoading(false);
-                }}
+                {!isPlaying && (
+                  <button className="kids-play-overlay" onClick={handlePlay} aria-label="Play featured kids video">
+                    ▶
+                  </button>
+                )}
+              </>
+            ) : (
+              <div className="kids-empty-state">
+                <div className="kids-empty-title">New Adventures Coming Soon</div>
+                <div className="kids-empty-subtitle">
+                  Premium stories, songs and learning films are being prepared for families.
+                </div>
+              </div>
+            )}
+
+            {isLoading && <div className="kids-media-status">Preparing Kids World preview...</div>}
+            {activeVideo && !isVideoReady && !isLoading && (
+              <div className="kids-media-status">Preparing safe viewing experience...</div>
+            )}
+          </div>
+        </div>
+
+        {/* ── Right: 3 video slots ── */}
+        <div className="kids-sidebar" role="list" aria-label="Kids video thumbnails">
+          {slots.map((item, index) =>
+            item ? (
+              <button
+                key={item.file}
+                className={`kids-thumb-card ${activeVideoIndex === index ? 'kids-thumb-card-active' : ''}`}
+                onClick={() => setActiveVideoIndex(index)}
+                role="listitem"
+                aria-label={`Play ${item.title}`}
               >
-                <source src={activeVideo.url} type={activeVideo.type} />
-              </video>
-
-              {!isPlaying && (
-                <button className="kids-play-overlay" onClick={handlePlay} aria-label="Play featured kids video">
-                  ▶
-                </button>
-              )}
-            </>
-          ) : (
-            <div className="kids-empty-state">
-              <div className="kids-empty-title">New Adventures Coming Soon</div>
-              <div className="kids-empty-subtitle">
-                Premium stories, songs and learning films are being prepared for families.
+                <div className="kids-thumb-preview">
+                  <video src={item.url} muted playsInline preload="metadata" />
+                </div>
+                <div className="kids-thumb-title">{item.title}</div>
+              </button>
+            ) : (
+              <div key={`slot-${index}`} className="kids-thumb-card kids-thumb-placeholder" role="listitem">
+                <div className="kids-thumb-preview kids-thumb-preview-empty">
+                  <span className="kids-thumb-soon-icon">🎬</span>
+                </div>
+                <div className="kids-thumb-title kids-thumb-soon-label">Coming Soon</div>
               </div>
-            </div>
+            )
           )}
-
-          {isLoading && <div className="kids-media-status">Preparing Kids World preview...</div>}
-          {activeVideo && !isVideoReady && !isLoading && <div className="kids-media-status">Preparing safe viewing experience...</div>}
         </div>
-
-        {activeVideo && <div className="kids-featured-title">Now Playing: {activeVideo.title}</div>}
       </div>
-
-      {videos.length > 0 && (
-        <div className="kids-thumb-strip" role="list" aria-label="Kids video thumbnails">
-          {videos.map((item, index) => (
-            <button
-              key={item.file}
-              className={`kids-thumb-card ${activeVideoIndex === index ? 'kids-thumb-card-active' : ''}`}
-              onClick={() => setActiveVideoIndex(index)}
-              role="listitem"
-              aria-label={`Play ${item.title}`}
-            >
-              <div className="kids-thumb-preview">
-                <video src={item.url} muted playsInline preload="metadata" />
-              </div>
-              <div className="kids-thumb-title">{item.title}</div>
-            </button>
-          ))}
-        </div>
-      )}
     </div>
   );
 }
@@ -796,10 +802,10 @@ function KidsWorldPanel({ section, onOpenStat, onOpenKidsCard, scrollContainerRe
       <motion.div
         ref={scrollContainerRef}
         key={section.id}
-        initial={{ opacity: 0, y: 24, filter: 'blur(8px)' }}
-        animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-        exit={{ opacity: 0, y: -24, filter: 'blur(8px)' }}
-        transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+        initial={{ opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -24 }}
+        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
         className="section-panel kids-world-panel"
       >
         <h1 className={`section-title ${section.accentClass}`}>{section.title}</h1>
@@ -857,10 +863,10 @@ function AboutPanel({ section, onOpenStat, scrollContainerRef }) {
       <motion.div
         ref={scrollContainerRef}
         key={section.id}
-        initial={{ opacity: 0, y: 28, filter: 'blur(10px)' }}
-        animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-        exit={{ opacity: 0, y: -28, filter: 'blur(10px)' }}
-        transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+        initial={{ opacity: 0, y: 28 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -28 }}
+        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
         className="section-panel about-panel"
       >
         <h1 className={`section-title ${section.accentClass}`}>{section.title}</h1>
@@ -930,10 +936,10 @@ function SectionPanel({ section, onOpenStat, onOpenKidsCard, scrollContainerRef 
         <motion.div
           ref={scrollContainerRef}
           key={section.id}
-          initial={{ opacity: 0, y: 28, filter: 'blur(10px)' }}
-          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-          exit={{ opacity: 0, y: -28, filter: 'blur(10px)' }}
-          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+          initial={{ opacity: 0, y: 28 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -28 }}
+          transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
           className="section-panel services-panel"
         >
           <h1 className={`section-title ${section.accentClass}`}>{section.title}</h1>
@@ -982,10 +988,10 @@ function SectionPanel({ section, onOpenStat, onOpenKidsCard, scrollContainerRef 
         <motion.div
           ref={scrollContainerRef}
           key={section.id}
-          initial={{ opacity: 0, y: 28, filter: 'blur(10px)' }}
-          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-          exit={{ opacity: 0, y: -28, filter: 'blur(10px)' }}
-          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+          initial={{ opacity: 0, y: 28 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -28 }}
+          transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
           className={`section-panel ${section.id === 'home' ? 'section-panel-home' : ''}`}
         >
           {section.id !== 'home' && <h1 className={`section-title ${section.accentClass}`}>{section.title}</h1>}
@@ -1035,10 +1041,10 @@ function SectionPanel({ section, onOpenStat, onOpenKidsCard, scrollContainerRef 
         <motion.div
           ref={scrollContainerRef}
           key={section.id}
-          initial={{ opacity: 0, y: 28, filter: 'blur(10px)' }}
-          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-          exit={{ opacity: 0, y: -28, filter: 'blur(10px)' }}
-          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+          initial={{ opacity: 0, y: 28 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -28 }}
+          transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
           className="section-panel portfolio-panel"
         >
           <h1 className={`section-title ${section.accentClass}`}>{section.title}</h1>
@@ -1081,10 +1087,10 @@ function SectionPanel({ section, onOpenStat, onOpenKidsCard, scrollContainerRef 
       <motion.div
         ref={scrollContainerRef}
         key={section.id}
-        initial={{ opacity: 0, y: 28, filter: 'blur(10px)' }}
-        animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-        exit={{ opacity: 0, y: -28, filter: 'blur(10px)' }}
-        transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+        initial={{ opacity: 0, y: 28 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -28 }}
+        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
         className="section-panel"
       >
         <h1 className={`section-title ${section.accentClass}`}>{section.title}</h1>
@@ -1138,7 +1144,7 @@ function VisualPanel({ section }) {
           className="visual-panel"
         >
           <div className="visual-panel-header">
-            <img src="/assets/logo.png" alt="Reelence" className="mini-logo" />
+            <img src="/assets/reelence-logo.svg" alt="Reelence" className="mini-logo" />
             <span>{section.visualTitle}</span>
           </div>
 
@@ -1178,7 +1184,7 @@ function VisualPanel({ section }) {
           <h1 className={`section-title home-visual-title ${section.accentClass}`}>{section.title}</h1>
 
           <div className="visual-panel-header">
-            <img src="/assets/logo.png" alt="Reelence" className="mini-logo" />
+            <img src="/assets/reelence-logo.svg" alt="Reelence" className="mini-logo" />
             <span>{section.visualTitle}</span>
           </div>
 
@@ -1199,7 +1205,7 @@ function VisualPanel({ section }) {
         className="visual-panel"
       >
         <div className="visual-panel-header">
-          <img src="/assets/logo.png" alt="Reelence" className="mini-logo" />
+          <img src="/assets/reelence-logo.svg" alt="Reelence" className="mini-logo" />
           <span>{section.visualTitle}</span>
         </div>
 
@@ -1490,7 +1496,7 @@ export default function ReelenceImmersiveScreen() {
     const onWheel = (e) => {
       if (window.innerWidth <= 1180) return;
 
-      if (Math.abs(e.deltaY) < 24) return;
+      if (Math.abs(e.deltaY) < 35) return;
 
       e.preventDefault();
       if (wheelLockRef.current) return;
@@ -1503,7 +1509,7 @@ export default function ReelenceImmersiveScreen() {
 
       window.setTimeout(() => {
         wheelLockRef.current = false;
-      }, 700);
+      }, 450);
     };
 
     window.addEventListener('wheel', onWheel, { passive: false });
@@ -1514,16 +1520,26 @@ export default function ReelenceImmersiveScreen() {
     const node = shellRef.current;
     if (!node) return;
 
+    const target = node.querySelector('.backdrop-layer') || node;
+    let rafId;
+
     const onMouseMove = (e) => {
-      const rect = node.getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / rect.width - 0.5) * 10;
-      const y = ((e.clientY - rect.top) / rect.height - 0.5) * 10;
-      node.style.setProperty('--mx', `${x}px`);
-      node.style.setProperty('--my', `${y}px`);
+      if (rafId) return;
+      rafId = requestAnimationFrame(() => {
+        const rect = node.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width - 0.5) * 10;
+        const y = ((e.clientY - rect.top) / rect.height - 0.5) * 10;
+        target.style.setProperty('--mx', `${x}px`);
+        target.style.setProperty('--my', `${y}px`);
+        rafId = null;
+      });
     };
 
     node.addEventListener('mousemove', onMouseMove);
-    return () => node.removeEventListener('mousemove', onMouseMove);
+    return () => {
+      node.removeEventListener('mousemove', onMouseMove);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
   }, []);
 
   return (
@@ -1537,7 +1553,7 @@ export default function ReelenceImmersiveScreen() {
             initial={{ opacity: 0, scale: 1.02 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.99 }}
-            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
             className="backdrop-layer"
           >
             <Backdrop vibe={active.vibe} />
