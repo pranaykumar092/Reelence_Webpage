@@ -1,4 +1,4 @@
-# Reelence Immersive Sample
+# AI Powered Cinematic Intelligence Engine
 
 This is a local React + Vite sample for a one-screen immersive Reelence experience.
 

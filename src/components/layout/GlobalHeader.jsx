@@ -32,7 +32,11 @@ export default function GlobalHeader() {
 
   const goTo = (href) => {
     setActiveSection(href.replace("#", ""));
-    window.location.hash = href;
+    if (href === "#home") {
+      window.history.pushState(null, "", window.location.pathname);
+    } else {
+      window.location.hash = href;
+    }
     window.dispatchEvent(new CustomEvent("reelence:navigate", { detail: href.replace("#", "") }));
     setOpen(false);
   };

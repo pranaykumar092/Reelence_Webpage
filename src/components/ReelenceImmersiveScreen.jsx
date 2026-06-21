@@ -1267,8 +1267,14 @@ export default function ReelenceImmersiveScreen() {
     if (!activeSectionId) return;
 
     // Keep URL + header bubble in sync with the currently visible immersive section.
-    if (window.location.hash !== `#${activeSectionId}`) {
-      window.history.replaceState(null, "", `#${activeSectionId}`);
+    if (activeSectionId === "home") {
+      if (window.location.hash) {
+        window.history.replaceState(null, "", window.location.pathname);
+      }
+    } else {
+      if (window.location.hash !== `#${activeSectionId}`) {
+        window.history.replaceState(null, "", `#${activeSectionId}`);
+      }
     }
 
     window.dispatchEvent(new CustomEvent("reelence:active-section", { detail: activeSectionId }));
