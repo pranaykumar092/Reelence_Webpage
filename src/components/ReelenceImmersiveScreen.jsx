@@ -1429,40 +1429,59 @@ export default function ReelenceImmersiveScreen() {
     company: '',
     phone: '',
     message: '',
+    status: 'idle', // idle | sending | success | error
   });
+
+  const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xpqgybpo';
 
   const updateDemoField = (field, value) =>
     setDemoForm((prev) => ({ ...prev, [field]: value }));
 
   const openDemoForm = () => {
     setModal({ open: false, title: '', body: '', showDemoButton: false, service: null });
-    setDemoForm((prev) => ({ ...prev, open: true }));
+    setDemoForm((prev) => ({ ...prev, open: true, status: 'idle' }));
   };
 
   const closeDemoForm = () =>
-    setDemoForm({ open: false, name: '', email: '', company: '', phone: '', message: '' });
+    setDemoForm({
+      open: false,
+      name: '',
+      email: '',
+      company: '',
+      phone: '',
+      message: '',
+      status: 'idle',
+    });
 
-  const submitDemoForm = () => {
+  const submitDemoForm = async () => {
     const { name, email, company, phone, message } = demoForm;
-    const subject = `Book Demo Request${name ? ` — ${name}` : ''}`;
-    const bodyText = [
-      'New Book Demo request from the Reelence website:',
-      '',
-      `Name: ${name || '-'}`,
-      `Email: ${email || '-'}`,
-      `Company: ${company || '-'}`,
-      `Phone: ${phone || '-'}`,
-      '',
-      'Message:',
-      message || '-',
-    ].join('\n');
+    setDemoForm((prev) => ({ ...prev, status: 'sending' }));
 
-    const mailtoUrl = `mailto:himansh@reelence.com?subject=${encodeURIComponent(
-      subject
-    )}&body=${encodeURIComponent(bodyText)}`;
+    try {
+      const response = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          company,
+          phone,
+          message,
+          _subject: `Book Demo Request${name ? ` — ${name}` : ''}`,
+        }),
+      });
 
-    window.location.href = mailtoUrl;
-    closeDemoForm();
+      if (response.ok) {
+        setDemoForm((prev) => ({ ...prev, status: 'success' }));
+      } else {
+        setDemoForm((prev) => ({ ...prev, status: 'error' }));
+      }
+    } catch (err) {
+      setDemoForm((prev) => ({ ...prev, status: 'error' }));
+    }
   };
 
   const openKidsCardModal = (card) => {
@@ -1695,75 +1714,110 @@ export default function ReelenceImmersiveScreen() {
           title="Book a Demo"
           onClose={closeDemoForm}
         >
-          <div className="demo-form">
-            <p className="demo-form-intro">
-              Share your details and the Reelence team will set up a personalized demo.
-              Submitting opens your email app with everything ready to send.
-            </p>
-
-            <label className="demo-field">
-              <span>Name *</span>
-              <input
-                type="text"
-                value={demoForm.name}
-                onChange={(e) => updateDemoField('name', e.target.value)}
-                placeholder="Your full name"
-              />
-            </label>
-
-            <label className="demo-field">
-              <span>Email *</span>
-              <input
-                type="email"
-                value={demoForm.email}
-                onChange={(e) => updateDemoField('email', e.target.value)}
-                placeholder="you@company.com"
-              />
-            </label>
-
-            <label className="demo-field">
-              <span>Company</span>
-              <input
-                type="text"
-                value={demoForm.company}
-                onChange={(e) => updateDemoField('company', e.target.value)}
-                placeholder="Company or brand"
-              />
-            </label>
-
-            <label className="demo-field">
-              <span>Phone</span>
-              <input
-                type="tel"
-                value={demoForm.phone}
-                onChange={(e) => updateDemoField('phone', e.target.value)}
-                placeholder="+91 00000 00000"
-              />
-            </label>
-
-            <label className="demo-field">
-              <span>What would you like to see?</span>
-              <textarea
-                rows={4}
-                value={demoForm.message}
-                onChange={(e) => updateDemoField('message', e.target.value)}
-                placeholder="Tell us about your goals, timeline, or the modules you're interested in."
-              />
-            </label>
-
-            <div className="demo-form-actions">
-              <button
-                className="btn primary"
-                onClick={submitDemoForm}
-                disabled={!demoForm.name.trim() || !demoForm.email.trim()}
-              >
-                Send Demo Request
-              </button>
-              <button className="btn secondary" onClick={closeDemoForm}>
-                Cancel
-              </button>
+          {demoForm.status === 'success' ? (
+            <div className="demo-form demo-form-success">
+              <div className="demo-success-icon" aria-hidden="true">✓</div>
+              <h4>Request received</h4>
+              <p>
+                Thanks{demoForm.name ? `, ${demoForm.name}` : ''}! Your demo request has been
+                sent to the Reelence team. We&apos;ll be in touch shortly.
+              </p>
+              <div className="demo-form-actions">
+                <button className="btn primary" onClick={closeDemoForm}>
+                  Done
+                </button>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="demo-form">
+              <p className="demo-form-intro">
+                Share your details and the Reelence team will set up a personalized demo.
+              </p>
+
+              <label className="demo-field">
+                <span>Name *</span>
+                <input
+                  type="text"
+                  value={demoForm.name}
+                  onChange={(e) => updateDemoField('name', e.target.value)}
+                  placeholder="Your full name"
+                  disabled={demoForm.status === 'sending'}
+                />
+              </label>
+
+              <label className="demo-field">
+                <span>Email *</span>
+                <input
+                  type="email"
+                  value={demoForm.email}
+                  onChange={(e) => updateDemoField('email', e.target.value)}
+                  placeholder="you@company.com"
+                  disabled={demoForm.status === 'sending'}
+                />
+              </label>
+
+              <label className="demo-field">
+                <span>Company</span>
+                <input
+                  type="text"
+                  value={demoForm.company}
+                  onChange={(e) => updateDemoField('company', e.target.value)}
+                  placeholder="Company or brand"
+                  disabled={demoForm.status === 'sending'}
+                />
+              </label>
+
+              <label className="demo-field">
+                <span>Phone</span>
+                <input
+                  type="tel"
+                  value={demoForm.phone}
+                  onChange={(e) => updateDemoField('phone', e.target.value)}
+                  placeholder="+91 00000 00000"
+                  disabled={demoForm.status === 'sending'}
+                />
+              </label>
+
+              <label className="demo-field">
+                <span>What would you like to see?</span>
+                <textarea
+                  rows={4}
+                  value={demoForm.message}
+                  onChange={(e) => updateDemoField('message', e.target.value)}
+                  placeholder="Tell us about your goals, timeline, or the modules you're interested in."
+                  disabled={demoForm.status === 'sending'}
+                />
+              </label>
+
+              {demoForm.status === 'error' && (
+                <p className="demo-form-error">
+                  Something went wrong sending your request. Please try again, or email us
+                  directly at himansh@reelence.com.
+                </p>
+              )}
+
+              <div className="demo-form-actions">
+                <button
+                  className="btn primary"
+                  onClick={submitDemoForm}
+                  disabled={
+                    !demoForm.name.trim() ||
+                    !demoForm.email.trim() ||
+                    demoForm.status === 'sending'
+                  }
+                >
+                  {demoForm.status === 'sending' ? 'Sending…' : 'Send Demo Request'}
+                </button>
+                <button
+                  className="btn secondary"
+                  onClick={closeDemoForm}
+                  disabled={demoForm.status === 'sending'}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          )}
         </DetailModal>
       </div>
     </div>
