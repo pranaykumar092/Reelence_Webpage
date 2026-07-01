@@ -1432,7 +1432,7 @@ export default function ReelenceImmersiveScreen() {
     status: 'idle', // idle | sending | success | error
   });
 
-  const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xpqgybpo';
+  const WEB3FORMS_ACCESS_KEY = 'd6f039fa-295a-4efa-81c7-dc33ae3667d3';
 
   const updateDemoField = (field, value) =>
     setDemoForm((prev) => ({ ...prev, [field]: value }));
@@ -1458,23 +1458,27 @@ export default function ReelenceImmersiveScreen() {
     setDemoForm((prev) => ({ ...prev, status: 'sending' }));
 
     try {
-      const response = await fetch(FORMSPREE_ENDPOINT, {
+      const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
         },
         body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          subject: `Book Demo Request${name ? ` — ${name}` : ''}`,
+          from_name: 'Reelence Website',
           name,
           email,
           company,
           phone,
           message,
-          _subject: `Book Demo Request${name ? ` — ${name}` : ''}`,
         }),
       });
 
-      if (response.ok) {
+      const data = await response.json();
+
+      if (data.success) {
         setDemoForm((prev) => ({ ...prev, status: 'success' }));
       } else {
         setDemoForm((prev) => ({ ...prev, status: 'error' }));
