@@ -29,7 +29,7 @@ const panels = {
     eyebrow: "Email Desk",
     title: "Reach Reelence",
     rows: [
-      ["Business Queries", "sales@reelence.com", Mail],
+      ["Business Queries", "create@reelence.com", Mail],
       ["Consulting & Partnerships", "consulting@reelence.com", Mail],
     ],
   },
