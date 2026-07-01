@@ -22,14 +22,14 @@ const panels = {
     rows: [
       ["Registered Address", "#195, 6th Cross, Celebrity Paradise, Doddathugur, Electronic City Phase 1, Bangalore - 560100, Karnataka, India", MapPin],
       ["Phone", "+91 9886669814  |  +91 9953793025", Phone],
-      ["Business Email", "sales@reelence.com", Mail],
+      ["Business Email", "create@reelence.com", Mail],
     ],
   },
   email: {
     eyebrow: "Email Desk",
     title: "Reach Reelence",
     rows: [
-      ["Business Queries", "create@reelence.com", Mail],
+      ["Business Queries", "sales@reelence.com", Mail],
       ["Consulting & Partnerships", "consulting@reelence.com", Mail],
     ],
   },
