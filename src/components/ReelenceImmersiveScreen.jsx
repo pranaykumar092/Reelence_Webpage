@@ -1422,6 +1422,49 @@ export default function ReelenceImmersiveScreen() {
     card: null,
   });
 
+  const [demoForm, setDemoForm] = useState({
+    open: false,
+    name: '',
+    email: '',
+    company: '',
+    phone: '',
+    message: '',
+  });
+
+  const updateDemoField = (field, value) =>
+    setDemoForm((prev) => ({ ...prev, [field]: value }));
+
+  const openDemoForm = () => {
+    setModal({ open: false, title: '', body: '', showDemoButton: false, service: null });
+    setDemoForm((prev) => ({ ...prev, open: true }));
+  };
+
+  const closeDemoForm = () =>
+    setDemoForm({ open: false, name: '', email: '', company: '', phone: '', message: '' });
+
+  const submitDemoForm = () => {
+    const { name, email, company, phone, message } = demoForm;
+    const subject = `Book Demo Request${name ? ` — ${name}` : ''}`;
+    const bodyText = [
+      'New Book Demo request from the Reelence website:',
+      '',
+      `Name: ${name || '-'}`,
+      `Email: ${email || '-'}`,
+      `Company: ${company || '-'}`,
+      `Phone: ${phone || '-'}`,
+      '',
+      'Message:',
+      message || '-',
+    ].join('\n');
+
+    const mailtoUrl = `mailto:himansh@reelence.com?subject=${encodeURIComponent(
+      subject
+    )}&body=${encodeURIComponent(bodyText)}`;
+
+    window.location.href = mailtoUrl;
+    closeDemoForm();
+  };
+
   const openKidsCardModal = (card) => {
     setKidsCardModal({ open: true, card });
   };
@@ -1606,7 +1649,7 @@ export default function ReelenceImmersiveScreen() {
               <p style={{ color: 'var(--muted)', lineHeight: 1.6 }}>{modal.body}</p>
               <div style={{ marginTop: 14 }}>
                 {modal.showDemoButton ? (
-                  <button className="btn primary">Book Demo</button>
+                  <button className="btn primary" onClick={openDemoForm}>Book Demo</button>
                 ) : (
                   <button className="btn primary">Explore More</button>
                 )}
@@ -1645,6 +1688,82 @@ export default function ReelenceImmersiveScreen() {
               </div>
             </div>
           )}
+        </DetailModal>
+
+        <DetailModal
+          open={demoForm.open}
+          title="Book a Demo"
+          onClose={closeDemoForm}
+        >
+          <div className="demo-form">
+            <p className="demo-form-intro">
+              Share your details and the Reelence team will set up a personalized demo.
+              Submitting opens your email app with everything ready to send.
+            </p>
+
+            <label className="demo-field">
+              <span>Name *</span>
+              <input
+                type="text"
+                value={demoForm.name}
+                onChange={(e) => updateDemoField('name', e.target.value)}
+                placeholder="Your full name"
+              />
+            </label>
+
+            <label className="demo-field">
+              <span>Email *</span>
+              <input
+                type="email"
+                value={demoForm.email}
+                onChange={(e) => updateDemoField('email', e.target.value)}
+                placeholder="you@company.com"
+              />
+            </label>
+
+            <label className="demo-field">
+              <span>Company</span>
+              <input
+                type="text"
+                value={demoForm.company}
+                onChange={(e) => updateDemoField('company', e.target.value)}
+                placeholder="Company or brand"
+              />
+            </label>
+
+            <label className="demo-field">
+              <span>Phone</span>
+              <input
+                type="tel"
+                value={demoForm.phone}
+                onChange={(e) => updateDemoField('phone', e.target.value)}
+                placeholder="+91 00000 00000"
+              />
+            </label>
+
+            <label className="demo-field">
+              <span>What would you like to see?</span>
+              <textarea
+                rows={4}
+                value={demoForm.message}
+                onChange={(e) => updateDemoField('message', e.target.value)}
+                placeholder="Tell us about your goals, timeline, or the modules you're interested in."
+              />
+            </label>
+
+            <div className="demo-form-actions">
+              <button
+                className="btn primary"
+                onClick={submitDemoForm}
+                disabled={!demoForm.name.trim() || !demoForm.email.trim()}
+              >
+                Send Demo Request
+              </button>
+              <button className="btn secondary" onClick={closeDemoForm}>
+                Cancel
+              </button>
+            </div>
+          </div>
         </DetailModal>
       </div>
     </div>
