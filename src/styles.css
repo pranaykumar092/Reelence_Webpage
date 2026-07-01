@@ -4375,3 +4375,77 @@ button {
 .cinematic-bg-fog {
   will-change: transform;
 }
+/* ============================================================================
+   BOOK DEMO FORM
+   ============================================================================ */
+.demo-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.demo-form-intro {
+  margin: 0 0 4px;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.demo-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.demo-field span {
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--text);
+}
+
+.demo-field input,
+.demo-field textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--panel-2);
+  color: var(--text);
+  font-size: 0.95rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.demo-field input::placeholder,
+.demo-field textarea::placeholder {
+  color: rgba(155, 166, 190, 0.65);
+}
+
+.demo-field input:focus,
+.demo-field textarea:focus {
+  border-color: var(--line-strong);
+  box-shadow: 0 0 0 3px rgba(104, 231, 255, 0.14);
+}
+
+.demo-field textarea {
+  resize: vertical;
+  min-height: 88px;
+}
+
+.demo-form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.demo-form-actions .btn {
+  height: 40px;
+  padding: 0 18px;
+}
+
+.demo-form-actions .btn.primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
